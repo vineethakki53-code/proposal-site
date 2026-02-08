@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Special Proposal</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 3.2rem;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 1.4rem;
+    max-width: 600px;
+  }
+
+  .btn {
+    margin: 10px;
+    padding: 12px 25px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
+  }
+
+  .yes-btn {
+    background-color: #00e676;
+    color: white;
+  }
+
+  .yes-btn:hover {
+    transform: scale(1.1);
+  }
+
+  .no-btn {
+    background-color: #ff5252;
+    color: white;
+    position: absolute;
+  }
+
+  #response {
+    margin-top: 20px;
+    font-size: 1.6rem;
+    font-weight: bold;
+  }
+
+  .heart {
+    position: fixed;
+    font-size: 20px;
+    animation: floatUp 4s linear infinite;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-800px); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Jahnavi, I Have Something To Ask ❤️</h1>
+  <p>
+    You make my days brighter and my world happier.
+    I wanted to ask you something special...
+  </p>
+
+  <button class="btn yes-btn" onclick="showProposal()">Click Here</button>
+  <div id="response"></div>
+</div>
+
+<script>
+function showProposal() {
+  const response = document.getElementById("response");
+  response.innerHTML = `
+    Jahnavi, will you be my girlfriend? <br><br>
+    <button class='btn yes-btn' id='yesBtn' onclick='yesClicked()'>Yes ❤️</button>
+    <button class='btn no-btn' id='noBtn'>No</button>
+  `;
+
+  moveNoButton();
+  growYesButton();
+}
+
+function yesClicked() {
+  document.getElementById("response").innerHTML = "You just made me the happiest person ever ❤️";
+  startHearts();
+}
+
+function moveNoButton() {
+  const noBtn = document.getElementById("noBtn");
+
+  noBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 100);
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+  });
+});
+}
+
+function growYesButton() {
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+
+  let scale = 1;
+
+  noBtn.addEventListener("mouseover", () => {
+    scale += 0.15;
+    yesBtn.style.transform = `scale(${scale})`;
+  });
+}
+
+function startHearts() {
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.bottom = "0";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 4000);
+  }, 300);
+}
+</script>
+
+</body>
+</html>
