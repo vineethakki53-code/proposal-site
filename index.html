@@ -45,11 +45,21 @@ border:none;border-radius:40px;cursor:pointer;transition:0.3s;font-weight:600;
 .no-btn{background:#ff1744;box-shadow:0 0 20px #ff1744;position:absolute;}
 
 .button-row{
-display:flex;
-justify-content:space-between; /* Yes left, No right */
-width:70vw;
-max-width:700px;
-margin-top:40px;
+position:relative;
+width:80vw;
+max-width:800px;
+margin-top:60px;
+height:100px;
+}
+
+#yesBtn{
+position:absolute;
+left:0;
+}
+
+#noBtn{
+position:absolute;
+right:0;
 }
 
 .video-frame{
