@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Jahnavi ❤️</title>
 
-<!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
@@ -48,7 +47,7 @@ padding:20px;
 .title{
 font-family:'Great Vibes',cursive;
 font-size:3.5rem;
-text-shadow:0 0 15px rgba(255,255,255,0.7);
+text-shadow:0 0 15px rgba(255,255,255,0.8);
 }
 
 .btn{
@@ -62,27 +61,13 @@ transition:0.3s;
 font-weight:600;
 }
 
-.btn:hover{
-transform:scale(1.1);
-}
+.btn:hover{transform:scale(1.1);} 
 
-.yes-btn{
-background:#00e676;
-box-shadow:0 0 15px #00e676;
-}
+.yes-btn{background:#00e676;box-shadow:0 0 15px #00e676;}
+.no-btn{background:#ff1744;box-shadow:0 0 15px #ff1744;position:relative;}
 
-.no-btn{
-background:#ff1744;
-box-shadow:0 0 15px #ff1744;
-}
+.button-row{display:flex;gap:25px;justify-content:center;}
 
-.button-row{
-display:flex;
-gap:20px;
-justify-content:center;
-}
-
-/* Cute Couple Video Frame */
 .video-frame{
 padding:18px;
 background:linear-gradient(145deg,#ffc1cc,#ffd6e0);
@@ -91,27 +76,20 @@ box-shadow:0 0 35px rgba(255,182,193,0.7);
 position:relative;
 }
 
-.video-frame::before{
-content:'❤️';
-position:absolute;
-top:-12px;
-left:-12px;
-font-size:24px;
-}
-
 video{
 width:65vw;
 max-width:550px;
 border-radius:20px;
 }
 
-.success-text{
-font-size:2rem;
+.romantic-slide{
 animation:fadeIn 2s ease;
+max-width:700px;
+font-size:1.5rem;
 }
 
 @keyframes fadeIn{
-from{opacity:0;transform:translateY(20px)}
+from{opacity:0;transform:translateY(40px)}
 to{opacity:1;transform:translateY(0)}
 }
 
@@ -122,7 +100,6 @@ to{opacity:1;transform:translateY(0)}
 
 <div class="background"></div>
 
-<!-- MUSIC -->
 <audio id="bgSong" loop>
 <source src="romantic.mp3" type="audio/mp3">
 </audio>
@@ -143,13 +120,11 @@ to{opacity:1;transform:translateY(0)}
 <!-- VIDEO -->
 <div class="scene" id="scene2">
 <h2>Watch This ✨</h2>
-
 <div class="video-frame">
 <video id="loveVideo" controls>
 <source src="lovevideo.mov">
 </video>
 </div>
-
 <button class="btn yes-btn" onclick="showScene(3)">Next ❤️</button>
 </div>
 
@@ -162,7 +137,18 @@ to{opacity:1;transform:translateY(0)}
 <button class="btn no-btn" id="noBtn">No</button>
 </div>
 
-<div id="result"></div>
+</div>
+
+<!-- ROMANTIC SLIDE -->
+<div class="scene" id="scene4">
+<h1 class="title">You Said Yes ❤️</h1>
+<p class="romantic-slide">
+You make miserable days joyful 💓 <br><br>
+No matter how low things get, you are always there for me 🌸 <br><br>
+Your smile melts every candle in my heart 🕯️❤️ <br><br>
+Your eyes are something I could stare into forever ✨ <br><br>
+Thank you Jahnavi. You mean the world to me. I love you ❤️
+</p>
 </div>
 
 <script>
@@ -183,46 +169,32 @@ document.getElementById("loveVideo").play();
 }
 
 if(num===3){
-activateButtons();
+activateNoButton();
 }
 }
 
 function yesClicked(){
-document.getElementById("result").innerHTML=`
-<p class="success-text">You just made me the happiest person ❤️</p>
-`;
-startHearts();
+showScene(4);
 }
 
-function activateButtons(){
-let noBtn=document.getElementById("noBtn");
-let yesBtn=document.getElementById("yesBtn");
+function activateNoButton(){
+const noBtn=document.getElementById("noBtn");
+const yesBtn=document.getElementById("yesBtn");
 
 let scale=1;
 
-noBtn.addEventListener("mouseover",()=>{
-noBtn.style.position="relative";
-noBtn.style.left=Math.random()*60+"px";
-noBtn.style.top=Math.random()*30+"px";
+window.addEventListener("mousemove",(e)=>{
+let rect=noBtn.getBoundingClientRect();
+let distance=Math.hypot(e.clientX-(rect.left+rect.width/2),e.clientY-(rect.top+rect.height/2));
+
+if(distance<120){
+noBtn.style.left=Math.random()*80+"px";
+noBtn.style.top=Math.random()*40+"px";
 
 scale+=0.15;
 yesBtn.style.transform=`scale(${scale})`;
-});
 }
-
-function startHearts(){
-setInterval(()=>{
-let heart=document.createElement("div");
-heart.innerHTML="❤️";
-heart.style.position="fixed";
-heart.style.left=Math.random()*100+"vw";
-heart.style.bottom="0";
-heart.style.fontSize="22px";
-heart.style.animation="floatUp 4s linear";
-document.body.appendChild(heart);
-
-setTimeout(()=>heart.remove(),4000);
-},300);
+});
 }
 
 </script>
