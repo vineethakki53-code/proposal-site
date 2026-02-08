@@ -3,43 +3,55 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Special Proposal</title>
+<title>Ultimate Proposal</title>
 
 <style>
 body{
 margin:0;
 font-family:'Poppins',sans-serif;
-background:linear-gradient(135deg,#ff758c,#ff7eb3,#8f94fb);
-background-size:400% 400%;
-animation:bgMove 12s ease infinite;
-color:white;
-text-align:center;
 overflow:hidden;
+color:white;
 }
 
-@keyframes bgMove{
+/* Animated Background */
+.background{
+position:fixed;
+width:100%;
+height:100%;
+background:linear-gradient(-45deg,#ff758c,#8f94fb,#ff7eb3,#667eea);
+background-size:400% 400%;
+animation:gradient 12s ease infinite;
+z-index:-1;
+}
+
+@keyframes gradient{
 0%{background-position:0% 50%}
 50%{background-position:100% 50%}
 100%{background-position:0% 50%}
 }
 
-.container{
+.scene{
+display:none;
 height:100vh;
-display:flex;
-flex-direction:column;
 justify-content:center;
 align-items:center;
+flex-direction:column;
+text-align:center;
 padding:20px;
 }
 
+.active{
+display:flex;
+}
+
 h1{
-font-size:3.2rem;
+font-size:3.5rem;
 animation:fadeIn 2s ease;
 }
 
 p{
-font-size:1.3rem;
-max-width:600px;
+font-size:1.4rem;
+max-width:650px;
 animation:fadeIn 3s ease;
 }
 
@@ -49,7 +61,7 @@ to{opacity:1;transform:translateY(0)}
 }
 
 .btn{
-padding:14px 30px;
+padding:14px 32px;
 font-size:1.3rem;
 border:none;
 border-radius:40px;
@@ -58,30 +70,35 @@ margin:12px;
 transition:0.3s;
 }
 
+.btn:hover{
+transform:scale(1.15);
+}
+
 .yes-btn{
 background:#00e676;
-color:white;
 }
 
 .no-btn{
 background:#ff1744;
-color:white;
 position:absolute;
 }
 
-.btn:hover{
-transform:scale(1.1);
+.gallery img{
+width:150px;
+height:150px;
+border-radius:20px;
+margin:10px;
+object-fit:cover;
+transition:0.4s;
 }
 
-#response{
-margin-top:25px;
-font-size:1.7rem;
-font-weight:bold;
+.gallery img:hover{
+transform:scale(1.2);
 }
 
 .heart{
 position:fixed;
-font-size:22px;
+font-size:24px;
 animation:floatUp 4s linear infinite;
 }
 
@@ -90,66 +107,76 @@ animation:floatUp 4s linear infinite;
 100%{transform:translateY(-900px);opacity:0}
 }
 
-.typing{
-border-right:3px solid white;
-white-space:nowrap;
-overflow:hidden;
-animation:typing 3s steps(40,end),blink 0.8s infinite;
-}
-
-@keyframes typing{
-from{width:0}
-to{width:100%}
-}
-
-@keyframes blink{
-50%{border-color:transparent}
-}
-
 </style>
 </head>
 
 <body>
 
+<div class="background"></div>
+
 <audio id="music" loop>
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_9c8c13cb18.mp3?filename=romantic-love-112197.mp3" type="audio/mp3">
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_9c8c13cb18.mp3" type="audio/mp3">
 </audio>
 
-<div class="container">
+<!-- Scene 1 Intro -->
+<div class="scene active" id="scene1">
+<h1>Hey Jahnavi ❤️</h1>
+<p>I built something special just for you...</p>
+<button class="btn yes-btn" onclick="nextScene(2)">Start</button>
+</div>
 
-<h1>Jahnavi ❤️</h1>
-<p class="typing">I have something special to tell you...</p>
+<!-- Scene 2 Story -->
+<div class="scene" id="scene2">
+<h1>Our Moments ✨</h1>
+<p>Every laugh, every memory, every moment with you means everything to me.</p>
 
-<button class="btn yes-btn" onclick="startExperience()">Start</button>
+<div class="gallery">
+<img src="https://picsum.photos/200?1">
+<img src="https://picsum.photos/200?2">
+<img src="https://picsum.photos/200?3">
+</div>
 
-<div id="response"></div>
+<button class="btn yes-btn" onclick="nextScene(3)">Continue</button>
+</div>
 
+<!-- Scene 3 Emotional Build -->
+<div class="scene" id="scene3">
+<h1>You Changed My World 🌍</h1>
+<p>You make ordinary days feel extraordinary.</p>
+<button class="btn yes-btn" onclick="nextScene(4)">Next</button>
+</div>
+
+<!-- Scene 4 Proposal -->
+<div class="scene" id="scene4">
+<h1>Jahnavi...</h1>
+<p style="font-size:1.8rem">Will you be my girlfriend? ❤️</p>
+
+<button class="btn yes-btn" id="yesBtn" onclick="yesClicked()">Yes</button>
+<button class="btn no-btn" id="noBtn">No</button>
 </div>
 
 <script>
 
-function startExperience(){
+function nextScene(num){
 document.getElementById("music").play();
 
-document.getElementById("response").innerHTML=`
-<p>Every moment with you feels magical ✨</p>
-<button class='btn yes-btn' onclick='nextQuestion()'>Continue</button>
-`;
-}
+let scenes=document.querySelectorAll(".scene");
+scenes.forEach(scene=>scene.classList.remove("active"));
 
-function nextQuestion(){
-document.getElementById("response").innerHTML=`
-Jahnavi, will you be my girlfriend? ❤️ <br><br>
-<button class='btn yes-btn' id='yesBtn' onclick='yesClicked()'>Yes</button>
-<button class='btn no-btn' id='noBtn'>No</button>
-`;
+document.getElementById("scene"+num).classList.add("active");
 
+if(num===4){
 moveNoButton();
 growYesButton();
 }
+}
 
 function yesClicked(){
-document.getElementById("response").innerHTML="You just made me the happiest person ever ❤️";
+document.getElementById("scene4").innerHTML=`
+<h1>You Made Me The Happiest Person ❤️</h1>
+<p>I promise to always make you smile.</p>
+`;
+
 startHearts();
 }
 
@@ -157,8 +184,8 @@ function moveNoButton(){
 const noBtn=document.getElementById("noBtn");
 
 noBtn.addEventListener("mouseover",()=>{
-const x=Math.random()*(window.innerWidth-120);
-const y=Math.random()*(window.innerHeight-120);
+const x=Math.random()*(window.innerWidth-150);
+const y=Math.random()*(window.innerHeight-150);
 
 noBtn.style.left=x+"px";
 noBtn.style.top=y+"px";
@@ -172,7 +199,7 @@ const yesBtn=document.getElementById("yesBtn");
 let scale=1;
 
 noBtn.addEventListener("mouseover",()=>{
-scale+=0.18;
+scale+=0.2;
 yesBtn.style.transform=`scale(${scale})`;
 });
 }
@@ -187,7 +214,7 @@ heart.style.bottom="0";
 document.body.appendChild(heart);
 
 setTimeout(()=>heart.remove(),4000);
-},250);
+},200);
 }
 
 </script>
