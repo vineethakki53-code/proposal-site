@@ -46,8 +46,8 @@ video{width:70%;max-width:700px;border-radius:20px;box-shadow:0 0 30px rgba(0,0,
 
 <div class="background"></div>
 
-<!-- Background Romantic Song -->
-<audio id="bgSong" loop>
+<!-- Background Romantic Song (AUTO PLAY) -->
+<audio id="bgSong" autoplay loop>
 <source src="romantic.mp3" type="audio/mp3">
 </audio>
 
@@ -82,7 +82,14 @@ video{width:70%;max-width:700px;border-radius:20px;box-shadow:0 0 30px rgba(0,0,
 
 <script>
 
-let fadeInterval;
+// Set initial low volume when website loads
+window.addEventListener("load", () => {
+let song=document.getElementById("bgSong");
+song.volume = 0.15; // Soft romantic background
+
+// Some browsers block autoplay until interaction, so attempt play
+song.play().catch(()=>{});
+});
 
 function nextScene(num){
 let scenes=document.querySelectorAll(".scene");
@@ -104,19 +111,11 @@ function startVideoExperience(){
 let video=document.getElementById("loveVideo");
 let song=document.getElementById("bgSong");
 
-song.volume = 0;
-song.play();
-
-// Fade IN music
-fadeInterval=setInterval(()=>{
-if(song.volume < 0.2){song.volume += 0.01;} else {clearInterval(fadeInterval);}
-},200);
-
 video.play();
 
-// Sync pause/play
-video.onplay = () => song.play();
+// Keep music synced with video
 video.onpause = () => song.pause();
+video.onplay = () => song.play();
 
 // Auto move to proposal when video ends
 video.onended = () => {
@@ -189,4 +188,3 @@ setTimeout(()=>heart.remove(),4000);
 
 </body>
 </html>
-
