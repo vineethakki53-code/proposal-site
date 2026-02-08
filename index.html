@@ -12,13 +12,14 @@
 
 body{
 margin:0;
-font-family:Poppins;
+font-family:'Poppins', sans-serif;
+height:100vh;
 overflow:hidden;
+display:flex;
+justify-content:center;
+align-items:center;
 color:white;
-}
 
-/* Animated Background */
-body{
 background:linear-gradient(135deg,#ff8eb3,#8f94fb,#ff758c);
 background-size:400% 400%;
 animation:bgMove 12s infinite alternate;
@@ -29,7 +30,6 @@ animation:bgMove 12s infinite alternate;
 100%{background-position:right;}
 }
 
-/* Scene */
 .scene{
 position:absolute;
 width:100%;
@@ -50,113 +50,26 @@ pointer-events:auto;
 }
 
 .title{
-font-family:'Great Vibes';
-font-size:4.3rem;
+font-family:'Great Vibes', cursive;
+font-size:4rem;
 text-shadow:0 0 20px white;
+margin-bottom:20px;
 }
 
-/* Buttons */
-.button-row{
-width:500px;
-height:120px;
-position:relative;
-margin-top:40px;
-}
-
-.btn{
-position:absolute;
-padding:16px 40px;
+button{
+padding:14px 36px;
 border:none;
-border-radius:50px;
-font-size:1.4rem;
+border-radius:40px;
+font-size:1.3rem;
 cursor:pointer;
-transition:.3s;
-font-weight:600;
-}
-
-#yesBtn{
-left:0;
 background:#00e676;
-box-shadow:0 0 30px #00e676;
-animation:pulse 2s infinite;
+color:black;
+box-shadow:0 0 20px #00e676;
+transition:.3s;
 }
 
-#noBtn{
-right:0;
-background:#ff1744;
-box-shadow:0 0 30px #ff1744;
-}
-
-@keyframes pulse{
-0%{box-shadow:0 0 10px #00e676;}
-50%{box-shadow:0 0 35px #00e676;}
-100%{box-shadow:0 0 10px #00e676;}
-}
-
-/* Video */
-.video-frame{
-padding:20px;
-background:rgba(255,255,255,.2);
-border-radius:30px;
-box-shadow:0 0 50px pink;
-margin-bottom:30px;
-}
-
-video{
-width:70vw;
-max-width:650px;
-border-radius:20px;
-}
-
-/* Floating Hearts */
-.heart{
-position:fixed;
-font-size:22px;
-animation:float 8s linear infinite;
-}
-
-@keyframes float{
-0%{transform:translateY(0);opacity:0}
-50%{opacity:.9}
-100%{transform:translateY(-120vh);opacity:0}
-}
-
-/* Fireworks Hearts */
-.fire{
-position:fixed;
-font-size:35px;
-animation:fire 2s forwards;
-}
-
-@keyframes fire{
-0%{transform:scale(0);}
-100%{transform:scale(2);opacity:0;}
-}
-
-/* Sparkle Cursor */
-.spark{
-position:fixed;
-font-size:14px;
-pointer-events:none;
-animation:spark 1s forwards;
-}
-
-@keyframes spark{
-0%{opacity:1;}
-100%{transform:translateY(-20px);opacity:0;}
-}
-
-/* Final text */
-.final{
-max-width:650px;
-font-size:1.7rem;
-line-height:1.7;
-animation:fade 2s ease;
-}
-
-@keyframes fade{
-from{opacity:0; transform:translateY(20px);}
-to{opacity:1;}
+button:hover{
+transform:scale(1.1);
 }
 
 </style>
@@ -168,80 +81,18 @@ to{opacity:1;}
 <source src="romantic.mp3">
 </audio>
 
-<!-- ENTRY -->
 <div class="scene active" id="scene0">
 <h1 class="title">Tap To Enter ❤️</h1>
 <button onclick="enter()">Enter</button>
 </div>
 
-<!-- INTRO -->
 <div class="scene" id="scene1">
 <h1 class="title">Hey Jahnavi ❤️</h1>
-<button onclick="showScene(2)">Start</button>
-</div>
-
-<!-- VIDEO -->
-<div class="scene" id="scene2">
-<h2>First Date ✨</h2>
-
-<div class="video-frame">
-<video id="video" controls>
-<source src="lovevideo.mov">
-</video>
-</div>
-
-<button onclick="showScene(3)">Next ❤️</button>
-</div>
-
-<!-- PROPOSAL -->
-<div class="scene" id="scene3">
-
-<h1 class="title">Will you be my girlfriend? ❤️</h1>
-
-<div class="button-row">
-<button id="yesBtn" class="btn" onclick="yes()">Yes</button>
-<button id="noBtn" class="btn">No</button>
-</div>
-
-</div>
-
-<!-- FINAL -->
-<div class="scene" id="scene4">
-
-<h1 class="title">You Said Yes ❤️</h1>
-
-<p class="final">
-Being with you feels peaceful and warm 🌸<br><br>
-You make normal days feel special ✨<br><br>
-Omg I love you soo much da you deserve this ❤️<br><br>
-Thank you for being you, Jahnavi 🌷
-</p>
-
+<button onclick="showScene(0)">Back</button>
 </div>
 
 <script>
 
-let flow;
-
-/* Scene control */
-function showScene(id){
-
-document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
-document.getElementById("scene"+id).classList.add("active");
-
-if(id===2){
-let vid=document.getElementById("video");
-vid.play().catch(()=>{});
-startHearts();
-}
-
-if(id===3){
-stopHearts();
-runNo();
-}
-}
-
-/* ENTER */
 function enter(){
 let song=document.getElementById("music");
 song.currentTime=10;
@@ -250,83 +101,10 @@ song.play().catch(()=>{});
 showScene(1);
 }
 
-/* YES clicked */
-function yes(){
-showScene(4);
-fireHearts();
+function showScene(id){
+document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
+document.getElementById("scene"+id).classList.add("active");
 }
-
-/* No button run */
-function runNo(){
-
-let no=document.getElementById("noBtn");
-let yes=document.getElementById("yesBtn");
-
-let scale=1;
-
-window.onmousemove=e=>{
-
-let rect=no.getBoundingClientRect();
-
-let dist=Math.hypot(
-e.clientX-(rect.left+rect.width/2),
-e.clientY-(rect.top+rect.height/2)
-);
-
-if(dist<150){
-
-no.style.left=Math.random()*(window.innerWidth-150)+"px";
-no.style.top=Math.random()*(window.innerHeight-80)+"px";
-
-scale+=0.3;
-yes.style.transform=`scale(${scale})`;
-
-}
-
-};
-}
-
-/* Floating hearts */
-function startHearts(){
-
-if(flow) clearInterval(flow);
-
-flow=setInterval(()=>{
-let h=document.createElement("div");
-h.className="heart";
-h.innerHTML="💗";
-h.style.left=Math.random()*100+"vw";
-h.style.bottom="0";
-document.body.appendChild(h);
-setTimeout(()=>h.remove(),8000);
-},400);
-}
-
-function stopHearts(){ clearInterval(flow); }
-
-/* Fireworks hearts */
-function fireHearts(){
-for(let i=0;i<35;i++){
-let h=document.createElement("div");
-h.className="fire";
-h.innerHTML="💖";
-h.style.left=Math.random()*100+"vw";
-h.style.top=Math.random()*100+"vh";
-document.body.appendChild(h);
-setTimeout(()=>h.remove(),2000);
-}
-}
-
-/* Sparkle cursor */
-document.onmousemove=e=>{
-let s=document.createElement("div");
-s.className="spark";
-s.innerHTML="✨";
-s.style.left=e.clientX+"px";
-s.style.top=e.clientY+"px";
-document.body.appendChild(s);
-setTimeout(()=>s.remove(),800);
-};
 
 </script>
 
