@@ -46,34 +46,42 @@ padding:20px;
 
 .title{
 font-family:'Great Vibes',cursive;
-font-size:3.5rem;
-text-shadow:0 0 15px rgba(255,255,255,0.8);
+font-size:3.7rem;
+text-shadow:0 0 20px rgba(255,255,255,0.9);
 }
 
 .btn{
-padding:14px 30px;
+padding:15px 35px;
 font-size:1.2rem;
 border:none;
 border-radius:40px;
 cursor:pointer;
-margin:12px;
 transition:0.3s;
 font-weight:600;
 }
 
-.btn:hover{transform:scale(1.1);} 
+.yes-btn{
+background:#00e676;
+box-shadow:0 0 20px #00e676;
+}
 
-.yes-btn{background:#00e676;box-shadow:0 0 15px #00e676;}
-.no-btn{background:#ff1744;box-shadow:0 0 15px #ff1744;position:relative;}
+.no-btn{
+background:#ff1744;
+box-shadow:0 0 20px #ff1744;
+position:absolute;
+}
 
-.button-row{display:flex;gap:25px;justify-content:center;}
+.button-row{
+display:flex;
+gap:70px; /* BIG SPACE */
+margin-top:30px;
+}
 
 .video-frame{
 padding:18px;
 background:linear-gradient(145deg,#ffc1cc,#ffd6e0);
 border-radius:30px;
-box-shadow:0 0 35px rgba(255,182,193,0.7);
-position:relative;
+box-shadow:0 0 40px rgba(255,182,193,0.8);
 }
 
 video{
@@ -83,9 +91,10 @@ border-radius:20px;
 }
 
 .romantic-slide{
+font-size:1.6rem;
+max-width:720px;
 animation:fadeIn 2s ease;
-max-width:700px;
-font-size:1.5rem;
+line-height:1.7;
 }
 
 @keyframes fadeIn{
@@ -113,18 +122,20 @@ to{opacity:1;transform:translateY(0)}
 <!-- INTRO -->
 <div class="scene" id="scene1">
 <h1 class="title">Hey Jahnavi ❤️</h1>
-<p>I made something special for you...</p>
+<p>I made something magical for you...</p>
 <button class="btn yes-btn" onclick="showScene(2)">Start</button>
 </div>
 
 <!-- VIDEO -->
 <div class="scene" id="scene2">
 <h2>Watch This ✨</h2>
+
 <div class="video-frame">
 <video id="loveVideo" controls>
 <source src="lovevideo.mov">
 </video>
 </div>
+
 <button class="btn yes-btn" onclick="showScene(3)">Next ❤️</button>
 </div>
 
@@ -136,19 +147,24 @@ to{opacity:1;transform:translateY(0)}
 <button class="btn yes-btn" onclick="yesClicked()" id="yesBtn">Yes</button>
 <button class="btn no-btn" id="noBtn">No</button>
 </div>
-
 </div>
 
-<!-- ROMANTIC SLIDE -->
+<!-- FINAL ROMANTIC SLIDE -->
 <div class="scene" id="scene4">
-<h1 class="title">You Said Yes ❤️</h1>
+<h1 class="title">My Heart Found Its Home ❤️</h1>
+
 <p class="romantic-slide">
-You make miserable days joyful 💓 <br><br>
-No matter how low things get, you are always there for me 🌸 <br><br>
-Your smile melts every candle in my heart 🕯️❤️ <br><br>
-Your eyes are something I could stare into forever ✨ <br><br>
-Thank you Jahnavi. You mean the world to me. I love you ❤️
+From this moment, every sunrise feels warmer because I know you exist in my world 🌅<br><br>
+
+You are the calm in my chaos, the smile in my silence, and the reason my days feel meaningful 🌸<br><br>
+
+If life is a journey, I don’t care about the destination… I just want every road to have you walking beside me ✨<br><br>
+
+With you, ordinary moments turn into memories I never want to forget 💫<br><br>
+
+Thank you for being the most beautiful chapter of my life, Jahnavi ❤️
 </p>
+
 </div>
 
 <script>
@@ -185,13 +201,20 @@ let scale=1;
 
 window.addEventListener("mousemove",(e)=>{
 let rect=noBtn.getBoundingClientRect();
-let distance=Math.hypot(e.clientX-(rect.left+rect.width/2),e.clientY-(rect.top+rect.height/2));
+let distance=Math.hypot(
+ e.clientX-(rect.left+rect.width/2),
+ e.clientY-(rect.top+rect.height/2)
+);
 
-if(distance<120){
-noBtn.style.left=Math.random()*80+"px";
-noBtn.style.top=Math.random()*40+"px";
+if(distance<150){
 
-scale+=0.15;
+// Move anywhere randomly
+noBtn.style.position="fixed";
+noBtn.style.left=Math.random()*(window.innerWidth-120)+"px";
+noBtn.style.top=Math.random()*(window.innerHeight-70)+"px";
+
+// YES grows drastically
+scale+=0.3;
 yesBtn.style.transform=`scale(${scale})`;
 }
 });
