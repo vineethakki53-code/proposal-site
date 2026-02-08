@@ -1,18 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Cinematic Proposal</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proposal</title>
 
 <style>
-body{margin:0;font-family:'Poppins',sans-serif;overflow:hidden;color:white;}
+body{
+margin:0;
+font-family:Poppins,sans-serif;
+color:white;
+overflow:hidden;
+}
 
 .background{
-position:fixed;width:100%;height:100%;
+position:fixed;
+width:100%;
+height:100%;
 background:linear-gradient(-45deg,#ff758c,#8f94fb,#ff7eb3,#667eea);
 background-size:400% 400%;
-animation:gradient 12s ease infinite;z-index:-1;
+animation:gradient 12s ease infinite;
+z-index:-1;
 }
 
 @keyframes gradient{
@@ -21,23 +29,47 @@ animation:gradient 12s ease infinite;z-index:-1;
 100%{background-position:0% 50%}
 }
 
-.scene{display:none;height:100vh;justify-content:center;align-items:center;flex-direction:column;text-align:center;padding:20px;}
+.scene{
+display:none;
+height:100vh;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+text-align:center;
+padding:20px;
+}
+
 .active{display:flex;}
 
-h1{font-size:3rem;}
-p{font-size:1.4rem;max-width:650px;}
+.btn{
+padding:14px 32px;
+font-size:1.2rem;
+border:none;
+border-radius:40px;
+cursor:pointer;
+margin:12px;
+transition:0.3s;
+}
 
-video{width:70%;max-width:700px;border-radius:20px;box-shadow:0 0 30px rgba(0,0,0,0.4);}
-
-.btn{padding:14px 32px;font-size:1.3rem;border:none;border-radius:40px;cursor:pointer;margin:12px;transition:0.3s;}
-.btn:hover{transform:scale(1.15);} 
+.btn:hover{transform:scale(1.1);}
 
 .yes-btn{background:#00e676;}
 .no-btn{background:#ff1744;position:absolute;}
 
-.heart{position:fixed;font-size:24px;animation:floatUp 4s linear infinite;}
+/* Cute Video Frame */
+.video-frame{
+padding:15px;
+background:rgba(255,255,255,0.15);
+border-radius:30px;
+box-shadow:0 0 30px rgba(255,255,255,0.3);
+backdrop-filter:blur(10px);
+}
 
-@keyframes floatUp{0%{transform:translateY(0);opacity:1}100%{transform:translateY(-900px);opacity:0}}
+video{
+width:70vw;
+max-width:600px;
+border-radius:20px;
+}
 
 </style>
 </head>
@@ -46,59 +78,60 @@ video{width:70%;max-width:700px;border-radius:20px;box-shadow:0 0 30px rgba(0,0,
 
 <div class="background"></div>
 
-<!-- Background Romantic Song (AUTO PLAY) -->
-<audio id="bgSong" autoplay loop>
+<audio id="bgSong" loop>
 <source src="romantic.mp3" type="audio/mp3">
 </audio>
 
-<!-- Heartbeat Sound -->
-<audio id="heartbeat">
-<source src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_5c0a9b78b7.mp3" type="audio/mp3">
-</audio>
+<!-- ENTRY SCREEN -->
+<div class="scene active" id="entry">
+<h1>Tap To Enter ❤️</h1>
+<button class="btn yes-btn" onclick="enterSite()">Enter</button>
+</div>
 
-<!-- Scene 1 -->
-<div class="scene active" id="scene1">
+<!-- START SCREEN -->
+<div class="scene" id="scene1">
 <h1>Hey Jahnavi ❤️</h1>
 <p>I made something special for you...</p>
 <button class="btn yes-btn" onclick="nextScene(2)">Start</button>
 </div>
 
-<!-- Scene 2 Video -->
+<!-- VIDEO SCREEN -->
 <div class="scene" id="scene2">
-<h1>Watch This ✨</h1>
+
+<h2>Watch This ✨</h2>
+
+<div class="video-frame">
 <video id="loveVideo" controls>
-<source src="lovevideo.mov" type="video/mp4">
+<source src="lovevideo.mov">
 </video>
 </div>
 
-<!-- Scene 3 Proposal -->
-<div class="scene" id="scene3">
-<h1>Jahnavi...</h1>
-<p style="font-size:1.8rem">Will you be my girlfriend? ❤️</p>
+<button class="btn yes-btn" onclick="nextScene(3)">Next ❤️</button>
 
-<button class="btn yes-btn" id="yesBtn" onclick="yesClicked()">Yes</button>
+</div>
+
+<!-- PROPOSAL -->
+<div class="scene" id="scene3">
+<h1>Will you be my girlfriend? ❤️</h1>
+<button class="btn yes-btn" id="yesBtn">Yes</button>
 <button class="btn no-btn" id="noBtn">No</button>
 </div>
 
 <script>
 
-// Set initial low volume when website loads
-window.addEventListener("load", () => {
+function enterSite(){
 let song=document.getElementById("bgSong");
-song.volume = 0.15; // Soft romantic background
-
-// Some browsers block autoplay until interaction, so attempt play
-song.play().catch(()=>{});
-});
+song.volume=0.15;
+song.play();
+showScene("scene1");
+}
 
 function nextScene(num){
-let scenes=document.querySelectorAll(".scene");
-scenes.forEach(scene=>scene.classList.remove("active"));
-
-document.getElementById("scene"+num).classList.add("active");
+showScene("scene"+num);
 
 if(num===2){
-startVideoExperience();
+let video=document.getElementById("loveVideo");
+video.play();
 }
 
 if(num===3){
@@ -107,55 +140,17 @@ growYesButton();
 }
 }
 
-function startVideoExperience(){
-let video=document.getElementById("loveVideo");
-let song=document.getElementById("bgSong");
-
-video.play();
-
-// Keep music synced with video
-video.onpause = () => song.pause();
-video.onplay = () => song.play();
-
-// Auto move to proposal when video ends
-video.onended = () => {
-fadeOutMusic();
-setTimeout(()=> nextScene(3),1500);
-};
-}
-
-function fadeOutMusic(){
-let song=document.getElementById("bgSong");
-
-let fadeOut=setInterval(()=>{
-if(song.volume > 0.02){song.volume -= 0.02;} else {song.pause(); clearInterval(fadeOut);} 
-},200);
-}
-
-function yesClicked(){
-let heartbeat=document.getElementById("heartbeat");
-heartbeat.volume=0.4;
-heartbeat.play();
-
-fadeOutMusic();
-
-document.getElementById("scene3").innerHTML=`
-<h1>You Made Me The Happiest Person ❤️</h1>
-<p>I promise to always make you smile.</p>
-`;
-
-startHearts();
+function showScene(id){
+document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
 }
 
 function moveNoButton(){
 const noBtn=document.getElementById("noBtn");
 
 noBtn.addEventListener("mouseover",()=>{
-const x=Math.random()*(window.innerWidth-150);
-const y=Math.random()*(window.innerHeight-150);
-
-noBtn.style.left=x+"px";
-noBtn.style.top=y+"px";
+noBtn.style.left=Math.random()*80+"vw";
+noBtn.style.top=Math.random()*80+"vh";
 });
 }
 
@@ -166,22 +161,9 @@ const yesBtn=document.getElementById("yesBtn");
 let scale=1;
 
 noBtn.addEventListener("mouseover",()=>{
-scale+=0.25;
+scale+=0.2;
 yesBtn.style.transform=`scale(${scale})`;
 });
-}
-
-function startHearts(){
-setInterval(()=>{
-const heart=document.createElement("div");
-heart.classList.add("heart");
-heart.innerHTML="❤️";
-heart.style.left=Math.random()*100+"vw";
-heart.style.bottom="0";
-document.body.appendChild(heart);
-
-setTimeout(()=>heart.remove(),4000);
-},200);
 }
 
 </script>
