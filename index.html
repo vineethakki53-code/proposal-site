@@ -267,6 +267,40 @@ let no=document.getElementById("noBtn");
 let yes=document.getElementById("yesBtn");
 
 let scale=1;
+let canMove=true;
+
+window.onmousemove = e => {
+
+let rect=no.getBoundingClientRect();
+
+let dist=Math.hypot(
+ e.clientX-(rect.left+rect.width/2),
+ e.clientY-(rect.top+rect.height/2)
+);
+
+if(dist < 140 && canMove){
+
+canMove=false;
+
+no.style.left=Math.random()*(window.innerWidth-150)+"px";
+no.style.top=Math.random()*(window.innerHeight-80)+"px";
+
+scale+=0.25;
+yes.style.transform=`scale(${scale})`;
+
+setTimeout(()=>{
+canMove=true;
+},500);
+
+}
+};
+}
+
+
+let no=document.getElementById("noBtn");
+let yes=document.getElementById("yesBtn");
+
+let scale=1;
 
 window.onmousemove=e=>{
 
