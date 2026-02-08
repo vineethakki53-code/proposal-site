@@ -10,11 +10,17 @@
 
 <style>
 
+/* BODY FIX */
 body{
 margin:0;
 font-family:Poppins;
+height:100vh;
 overflow:hidden;
 color:white;
+
+display:flex;
+justify-content:center;
+align-items:center;
 
 background:linear-gradient(135deg,#ff8eb3,#8f94fb,#ff758c);
 background-size:400% 400%;
@@ -26,15 +32,18 @@ animation:bgMove 12s infinite alternate;
 100%{background-position:right;}
 }
 
+/* SCENES */
 .scene{
 position:absolute;
 width:100%;
 height:100vh;
+
 display:flex;
+flex-direction:column;
 justify-content:center;
 align-items:center;
-flex-direction:column;
 text-align:center;
+
 opacity:0;
 transition:1s;
 pointer-events:none;
@@ -49,9 +58,27 @@ pointer-events:auto;
 font-family:'Great Vibes';
 font-size:4rem;
 text-shadow:0 0 20px white;
+margin-bottom:20px;
 }
 
-/* Video Frame */
+/* BUTTONS */
+button{
+padding:14px 36px;
+border:none;
+border-radius:40px;
+font-size:1.3rem;
+cursor:pointer;
+background:#00e676;
+color:black;
+box-shadow:0 0 20px #00e676;
+transition:.3s;
+}
+
+button:hover{
+transform:scale(1.1);
+}
+
+/* VIDEO */
 .video-frame{
 padding:20px;
 background:rgba(255,255,255,.2);
@@ -66,7 +93,7 @@ max-width:650px;
 border-radius:20px;
 }
 
-/* Buttons */
+/* PROPOSAL BUTTON ROW */
 .button-row{
 width:500px;
 height:120px;
@@ -81,7 +108,6 @@ border:none;
 border-radius:50px;
 font-size:1.4rem;
 cursor:pointer;
-transition:.3s;
 font-weight:600;
 }
 
@@ -97,7 +123,7 @@ background:#ff1744;
 box-shadow:0 0 30px #ff1744;
 }
 
-/* Hearts */
+/* HEART FLOAT */
 .heart{
 position:fixed;
 font-size:22px;
@@ -110,6 +136,7 @@ animation:float 8s linear infinite;
 100%{transform:translateY(-120vh);opacity:0}
 }
 
+/* HEART EXPLOSION */
 .fire{
 position:fixed;
 font-size:35px;
@@ -121,6 +148,7 @@ animation:fire 2s forwards;
 100%{transform:scale(2);opacity:0;}
 }
 
+/* SPARKLE CURSOR */
 .spark{
 position:fixed;
 font-size:14px;
@@ -131,23 +159,6 @@ animation:spark 1s forwards;
 @keyframes spark{
 0%{opacity:1;}
 100%{transform:translateY(-20px);opacity:0;}
-}
-
-.final{
-max-width:650px;
-font-size:1.6rem;
-line-height:1.6;
-}
-
-button{
-padding:14px 36px;
-border:none;
-border-radius:40px;
-font-size:1.3rem;
-cursor:pointer;
-background:#00e676;
-color:black;
-box-shadow:0 0 20px #00e676;
 }
 
 </style>
@@ -177,6 +188,7 @@ box-shadow:0 0 20px #00e676;
 
 <!-- VIDEO -->
 <div class="scene" id="scene2">
+
 <h2>First Date ✨</h2>
 
 <div class="video-frame">
@@ -186,35 +198,39 @@ box-shadow:0 0 20px #00e676;
 </div>
 
 <button onclick="showScene(3)">Next ❤️</button>
+
 </div>
 
 <!-- PROPOSAL -->
 <div class="scene" id="scene3">
+
 <h1 class="title">Will you be my girlfriend? ❤️</h1>
 
 <div class="button-row">
 <button id="yesBtn" class="btn" onclick="yes()">Yes</button>
 <button id="noBtn" class="btn">No</button>
 </div>
+
 </div>
 
 <!-- FINAL -->
 <div class="scene" id="scene4">
+
 <h1 class="title">You Said Yes ❤️</h1>
 
-<p class="final">
+<p>
 Being with you feels peaceful and warm 🌸<br><br>
 You make normal days feel special ✨<br><br>
 Omg I love you soo much da you deserve this ❤️<br><br>
 Thank you for being you, Jahnavi 🌷
 </p>
+
 </div>
 
 <script>
 
 let flow;
 
-/* Enter */
 function enter(){
 let song=document.getElementById("music");
 song.currentTime=10;
@@ -223,7 +239,6 @@ song.play().catch(()=>{});
 showScene(1);
 }
 
-/* Scene */
 function showScene(id){
 
 document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
@@ -240,22 +255,21 @@ runNo();
 }
 }
 
-/* Yes */
 function yes(){
 showScene(4);
-
 document.getElementById("heartbeat").play();
 fireHearts();
 }
 
-/* No Run */
 function runNo(){
+
 let no=document.getElementById("noBtn");
 let yes=document.getElementById("yesBtn");
 
 let scale=1;
 
 window.onmousemove=e=>{
+
 let rect=no.getBoundingClientRect();
 
 let dist=Math.hypot(
@@ -273,7 +287,6 @@ yes.style.transform=`scale(${scale})`;
 };
 }
 
-/* Floating Hearts */
 function startHearts(){
 if(flow) clearInterval(flow);
 
@@ -290,7 +303,6 @@ setTimeout(()=>h.remove(),8000);
 
 function stopHearts(){ clearInterval(flow); }
 
-/* Explosion Hearts */
 function fireHearts(){
 for(let i=0;i<35;i++){
 let h=document.createElement("div");
@@ -303,7 +315,7 @@ setTimeout(()=>h.remove(),2000);
 }
 }
 
-/* Sparkle Cursor */
+/* Sparkle cursor */
 document.onmousemove=e=>{
 let s=document.createElement("div");
 s.className="spark";
