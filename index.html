@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Ultimate Proposal</title>
+<title>Video Proposal</title>
 
 <style>
 body{
@@ -13,7 +13,6 @@ overflow:hidden;
 color:white;
 }
 
-/* Animated Background */
 .background{
 position:fixed;
 width:100%;
@@ -45,19 +44,20 @@ display:flex;
 }
 
 h1{
-font-size:3.5rem;
+font-size:3rem;
 animation:fadeIn 2s ease;
 }
 
 p{
 font-size:1.4rem;
 max-width:650px;
-animation:fadeIn 3s ease;
 }
 
-@keyframes fadeIn{
-from{opacity:0;transform:translateY(40px)}
-to{opacity:1;transform:translateY(0)}
+video{
+width:70%;
+max-width:700px;
+border-radius:20px;
+box-shadow:0 0 30px rgba(0,0,0,0.4);
 }
 
 .btn{
@@ -83,19 +83,6 @@ background:#ff1744;
 position:absolute;
 }
 
-.gallery img{
-width:150px;
-height:150px;
-border-radius:20px;
-margin:10px;
-object-fit:cover;
-transition:0.4s;
-}
-
-.gallery img:hover{
-transform:scale(1.2);
-}
-
 .heart{
 position:fixed;
 font-size:24px;
@@ -114,40 +101,31 @@ animation:floatUp 4s linear infinite;
 
 <div class="background"></div>
 
-<audio id="music" loop>
+<!-- Romantic Background Tune -->
+<audio id="romanticMusic">
 <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_9c8c13cb18.mp3" type="audio/mp3">
 </audio>
 
-<!-- Scene 1 Intro -->
+<!-- Scene 1 -->
 <div class="scene active" id="scene1">
 <h1>Hey Jahnavi ❤️</h1>
-<p>I built something special just for you...</p>
+<p>I made something special for you...</p>
 <button class="btn yes-btn" onclick="nextScene(2)">Start</button>
 </div>
 
-<!-- Scene 2 Story -->
+<!-- Scene 2 Video -->
 <div class="scene" id="scene2">
-<h1>Our Moments ✨</h1>
-<p>Every laugh, every memory, every moment with you means everything to me.</p>
+<h1>Watch This ✨</h1>
 
-<div class="gallery">
-<img src="https://picsum.photos/200?1">
-<img src="https://picsum.photos/200?2">
-<img src="https://picsum.photos/200?3">
-</div>
+<video id="loveVideo" controls>
+<source src="lovevideo.mp4" type="video/mp4">
+</video>
 
 <button class="btn yes-btn" onclick="nextScene(3)">Continue</button>
 </div>
 
-<!-- Scene 3 Emotional Build -->
+<!-- Scene 3 Proposal -->
 <div class="scene" id="scene3">
-<h1>You Changed My World 🌍</h1>
-<p>You make ordinary days feel extraordinary.</p>
-<button class="btn yes-btn" onclick="nextScene(4)">Next</button>
-</div>
-
-<!-- Scene 4 Proposal -->
-<div class="scene" id="scene4">
 <h1>Jahnavi...</h1>
 <p style="font-size:1.8rem">Will you be my girlfriend? ❤️</p>
 
@@ -158,21 +136,28 @@ animation:floatUp 4s linear infinite;
 <script>
 
 function nextScene(num){
-document.getElementById("music").play();
-
 let scenes=document.querySelectorAll(".scene");
 scenes.forEach(scene=>scene.classList.remove("active"));
 
 document.getElementById("scene"+num).classList.add("active");
 
-if(num===4){
+// Play music when video scene opens
+if(num===2){
+let music=document.getElementById("romanticMusic");
+let video=document.getElementById("loveVideo");
+
+music.play();
+video.play();
+}
+
+if(num===3){
 moveNoButton();
 growYesButton();
 }
 }
 
 function yesClicked(){
-document.getElementById("scene4").innerHTML=`
+document.getElementById("scene3").innerHTML=`
 <h1>You Made Me The Happiest Person ❤️</h1>
 <p>I promise to always make you smile.</p>
 `;
