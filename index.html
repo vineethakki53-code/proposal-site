@@ -1,14 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Proposal</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jahnavi ❤️</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
+
 body{
 margin:0;
-font-family:Poppins,sans-serif;
+font-family:'Poppins',sans-serif;
 color:white;
 overflow:hidden;
 }
@@ -41,34 +45,74 @@ padding:20px;
 
 .active{display:flex;}
 
+.title{
+font-family:'Great Vibes',cursive;
+font-size:3.5rem;
+text-shadow:0 0 15px rgba(255,255,255,0.7);
+}
+
 .btn{
-padding:14px 32px;
+padding:14px 30px;
 font-size:1.2rem;
 border:none;
 border-radius:40px;
 cursor:pointer;
 margin:12px;
 transition:0.3s;
+font-weight:600;
 }
 
-.btn:hover{transform:scale(1.1);}
+.btn:hover{
+transform:scale(1.1);
+}
 
-.yes-btn{background:#00e676;}
-.no-btn{background:#ff1744;position:absolute;}
+.yes-btn{
+background:#00e676;
+box-shadow:0 0 15px #00e676;
+}
 
-/* Cute Video Frame */
+.no-btn{
+background:#ff1744;
+box-shadow:0 0 15px #ff1744;
+}
+
+.button-row{
+display:flex;
+gap:20px;
+justify-content:center;
+}
+
+/* Cute Couple Video Frame */
 .video-frame{
-padding:15px;
-background:rgba(255,255,255,0.15);
+padding:18px;
+background:linear-gradient(145deg,#ffc1cc,#ffd6e0);
 border-radius:30px;
-box-shadow:0 0 30px rgba(255,255,255,0.3);
-backdrop-filter:blur(10px);
+box-shadow:0 0 35px rgba(255,182,193,0.7);
+position:relative;
+}
+
+.video-frame::before{
+content:'❤️';
+position:absolute;
+top:-12px;
+left:-12px;
+font-size:24px;
 }
 
 video{
-width:70vw;
-max-width:600px;
+width:65vw;
+max-width:550px;
 border-radius:20px;
+}
+
+.success-text{
+font-size:2rem;
+animation:fadeIn 2s ease;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(20px)}
+to{opacity:1;transform:translateY(0)}
 }
 
 </style>
@@ -78,26 +122,26 @@ border-radius:20px;
 
 <div class="background"></div>
 
+<!-- MUSIC -->
 <audio id="bgSong" loop>
 <source src="romantic.mp3" type="audio/mp3">
 </audio>
 
-<!-- ENTRY SCREEN -->
+<!-- ENTRY -->
 <div class="scene active" id="entry">
-<h1>Tap To Enter ❤️</h1>
+<h1 class="title">Tap To Enter ❤️</h1>
 <button class="btn yes-btn" onclick="enterSite()">Enter</button>
 </div>
 
-<!-- START SCREEN -->
+<!-- INTRO -->
 <div class="scene" id="scene1">
-<h1>Hey Jahnavi ❤️</h1>
+<h1 class="title">Hey Jahnavi ❤️</h1>
 <p>I made something special for you...</p>
-<button class="btn yes-btn" onclick="nextScene(2)">Start</button>
+<button class="btn yes-btn" onclick="showScene(2)">Start</button>
 </div>
 
-<!-- VIDEO SCREEN -->
+<!-- VIDEO -->
 <div class="scene" id="scene2">
-
 <h2>Watch This ✨</h2>
 
 <div class="video-frame">
@@ -106,15 +150,19 @@ border-radius:20px;
 </video>
 </div>
 
-<button class="btn yes-btn" onclick="nextScene(3)">Next ❤️</button>
-
+<button class="btn yes-btn" onclick="showScene(3)">Next ❤️</button>
 </div>
 
 <!-- PROPOSAL -->
 <div class="scene" id="scene3">
-<h1>Will you be my girlfriend? ❤️</h1>
-<button class="btn yes-btn" id="yesBtn">Yes</button>
+<h1 class="title">Will you be my girlfriend? ❤️</h1>
+
+<div class="button-row">
+<button class="btn yes-btn" onclick="yesClicked()" id="yesBtn">Yes</button>
 <button class="btn no-btn" id="noBtn">No</button>
+</div>
+
+<div id="result"></div>
 </div>
 
 <script>
@@ -123,47 +171,58 @@ function enterSite(){
 let song=document.getElementById("bgSong");
 song.volume=0.15;
 song.play();
-showScene("scene1");
+showScene(1);
 }
 
-function nextScene(num){
-showScene("scene"+num);
+function showScene(num){
+document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
+document.getElementById("scene"+num).classList.add("active");
 
 if(num===2){
-let video=document.getElementById("loveVideo");
-video.play();
+document.getElementById("loveVideo").play();
 }
 
 if(num===3){
-moveNoButton();
-growYesButton();
+activateButtons();
 }
 }
 
-function showScene(id){
-document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
-document.getElementById(id).classList.add("active");
+function yesClicked(){
+document.getElementById("result").innerHTML=`
+<p class="success-text">You just made me the happiest person ❤️</p>
+`;
+startHearts();
 }
 
-function moveNoButton(){
-const noBtn=document.getElementById("noBtn");
-
-noBtn.addEventListener("mouseover",()=>{
-noBtn.style.left=Math.random()*80+"vw";
-noBtn.style.top=Math.random()*80+"vh";
-});
-}
-
-function growYesButton(){
-const noBtn=document.getElementById("noBtn");
-const yesBtn=document.getElementById("yesBtn");
+function activateButtons(){
+let noBtn=document.getElementById("noBtn");
+let yesBtn=document.getElementById("yesBtn");
 
 let scale=1;
 
 noBtn.addEventListener("mouseover",()=>{
-scale+=0.2;
+noBtn.style.position="relative";
+noBtn.style.left=Math.random()*60+"px";
+noBtn.style.top=Math.random()*30+"px";
+
+scale+=0.15;
 yesBtn.style.transform=`scale(${scale})`;
 });
+}
+
+function startHearts(){
+setInterval(()=>{
+let heart=document.createElement("div");
+heart.innerHTML="❤️";
+heart.style.position="fixed";
+heart.style.left=Math.random()*100+"vw";
+heart.style.bottom="0";
+heart.style.fontSize="22px";
+heart.style.animation="floatUp 4s linear";
+document.body.appendChild(heart);
+
+setTimeout(()=>heart.remove(),4000);
+},300);
 }
 
 </script>
