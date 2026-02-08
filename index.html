@@ -3,50 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Jahnavi ❤️</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 
-/* BODY FIX */
 body{
 margin:0;
-font-family:Poppins;
+font-family:'Poppins', sans-serif;
 height:100vh;
 overflow:hidden;
 color:white;
-
-display:flex;
-justify-content:center;
-align-items:center;
+text-align:center;
 
 background:linear-gradient(135deg,#ff8eb3,#8f94fb,#ff758c);
 background-size:400% 400%;
-animation:bgMove 12s infinite alternate;
+animation:bg 12s infinite alternate;
 }
 
-@keyframes bgMove{
+@keyframes bg{
 0%{background-position:left;}
 100%{background-position:right;}
 }
 
-/* SCENES */
 .scene{
 position:absolute;
 width:100%;
 height:100vh;
-
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-text-align:center;
-
 opacity:0;
-transition:1s;
 pointer-events:none;
+transition:1s;
 }
 
 .scene.active{
@@ -58,32 +49,14 @@ pointer-events:auto;
 font-family:'Great Vibes';
 font-size:4rem;
 text-shadow:0 0 20px white;
-margin-bottom:20px;
 }
 
-/* BUTTONS */
-button{
-padding:14px 36px;
-border:none;
-border-radius:40px;
-font-size:1.3rem;
-cursor:pointer;
-background:#00e676;
-color:black;
-box-shadow:0 0 20px #00e676;
-transition:.3s;
-}
-
-button:hover{
-transform:scale(1.1);
-}
-
-/* VIDEO */
+/* Video frame */
 .video-frame{
 padding:20px;
-background:rgba(255,255,255,.2);
-border-radius:30px;
-box-shadow:0 0 50px pink;
+background:rgba(255,255,255,0.2);
+border-radius:25px;
+box-shadow:0 0 40px pink;
 margin-bottom:30px;
 }
 
@@ -93,7 +66,7 @@ max-width:650px;
 border-radius:20px;
 }
 
-/* PROPOSAL BUTTON ROW */
+/* Buttons */
 .button-row{
 width:500px;
 height:120px;
@@ -103,10 +76,10 @@ margin-top:40px;
 
 .btn{
 position:absolute;
-padding:16px 40px;
+padding:15px 35px;
 border:none;
 border-radius:50px;
-font-size:1.4rem;
+font-size:1.3rem;
 cursor:pointer;
 font-weight:600;
 }
@@ -123,7 +96,7 @@ background:#ff1744;
 box-shadow:0 0 30px #ff1744;
 }
 
-/* HEART FLOAT */
+/* Hearts */
 .heart{
 position:fixed;
 font-size:22px;
@@ -133,13 +106,12 @@ animation:float 8s linear infinite;
 @keyframes float{
 0%{transform:translateY(0);opacity:0}
 50%{opacity:.9}
-100%{transform:translateY(-120vh);opacity:0}
+100%{transform:translateY(-110vh);opacity:0}
 }
 
-/* HEART EXPLOSION */
 .fire{
 position:fixed;
-font-size:35px;
+font-size:30px;
 animation:fire 2s forwards;
 }
 
@@ -148,17 +120,14 @@ animation:fire 2s forwards;
 100%{transform:scale(2);opacity:0;}
 }
 
-/* SPARKLE CURSOR */
-.spark{
-position:fixed;
-font-size:14px;
-pointer-events:none;
-animation:spark 1s forwards;
-}
-
-@keyframes spark{
-0%{opacity:1;}
-100%{transform:translateY(-20px);opacity:0;}
+button{
+padding:14px 30px;
+border:none;
+border-radius:40px;
+font-size:1.2rem;
+cursor:pointer;
+background:#00e676;
+box-shadow:0 0 20px #00e676;
 }
 
 </style>
@@ -229,8 +198,9 @@ Thank you for being you, Jahnavi 🌷
 
 <script>
 
-let flow;
+let heartFlow;
 
+/* ENTER */
 function enter(){
 let song=document.getElementById("music");
 song.currentTime=10;
@@ -239,28 +209,31 @@ song.play().catch(()=>{});
 showScene(1);
 }
 
-function showScene(id){
+/* SCENE CHANGE */
+function showScene(n){
 
 document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
-document.getElementById("scene"+id).classList.add("active");
+document.getElementById("scene"+n).classList.add("active");
 
-if(id===2){
+if(n===2){
 document.getElementById("video").play().catch(()=>{});
 startHearts();
 }
 
-if(id===3){
+if(n===3){
 stopHearts();
 runNo();
 }
 }
 
+/* YES CLICK */
 function yes(){
 showScene(4);
 document.getElementById("heartbeat").play();
-fireHearts();
+explodeHearts();
 }
 
+/* NO BUTTON MOVE */
 function runNo(){
 
 let no=document.getElementById("noBtn");
@@ -268,39 +241,6 @@ let yes=document.getElementById("yesBtn");
 
 let scale=1;
 let canMove=true;
-
-window.onmousemove = e => {
-
-let rect=no.getBoundingClientRect();
-
-let dist=Math.hypot(
- e.clientX-(rect.left+rect.width/2),
- e.clientY-(rect.top+rect.height/2)
-);
-
-if(dist < 140 && canMove){
-
-canMove=false;
-
-no.style.left=Math.random()*(window.innerWidth-150)+"px";
-no.style.top=Math.random()*(window.innerHeight-80)+"px";
-
-scale+=0.25;
-yes.style.transform=`scale(${scale})`;
-
-setTimeout(()=>{
-canMove=true;
-},500);
-
-}
-};
-}
-
-
-let no=document.getElementById("noBtn");
-let yes=document.getElementById("yesBtn");
-
-let scale=1;
 
 window.onmousemove=e=>{
 
@@ -311,20 +251,28 @@ e.clientX-(rect.left+rect.width/2),
 e.clientY-(rect.top+rect.height/2)
 );
 
-if(dist<150){
+if(dist<140 && canMove){
+
+canMove=false;
+
 no.style.left=Math.random()*(window.innerWidth-150)+"px";
 no.style.top=Math.random()*(window.innerHeight-80)+"px";
 
-scale+=0.3;
+scale+=0.25;
 yes.style.transform=`scale(${scale})`;
+
+setTimeout(()=>{ canMove=true },500);
+
 }
+
 };
+
 }
 
+/* HEART FLOW */
 function startHearts(){
-if(flow) clearInterval(flow);
 
-flow=setInterval(()=>{
+heartFlow=setInterval(()=>{
 let h=document.createElement("div");
 h.className="heart";
 h.innerHTML="💗";
@@ -332,13 +280,16 @@ h.style.left=Math.random()*100+"vw";
 h.style.bottom="0";
 document.body.appendChild(h);
 setTimeout(()=>h.remove(),8000);
-},400);
+},500);
 }
 
-function stopHearts(){ clearInterval(flow); }
+function stopHearts(){
+clearInterval(heartFlow);
+}
 
-function fireHearts(){
-for(let i=0;i<35;i++){
+/* HEART EXPLOSION */
+function explodeHearts(){
+for(let i=0;i<30;i++){
 let h=document.createElement("div");
 h.className="fire";
 h.innerHTML="💖";
@@ -348,17 +299,6 @@ document.body.appendChild(h);
 setTimeout(()=>h.remove(),2000);
 }
 }
-
-/* Sparkle cursor */
-document.onmousemove=e=>{
-let s=document.createElement("div");
-s.className="spark";
-s.innerHTML="✨";
-s.style.left=e.clientX+"px";
-s.style.top=e.clientY+"px";
-document.body.appendChild(s);
-setTimeout(()=>s.remove(),800);
-};
 
 </script>
 
